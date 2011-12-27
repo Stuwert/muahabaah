@@ -51,12 +51,9 @@ function moveItem (pos1, pos2){
 	console.log("hello"+pos2.x+pos2.y);
 	board [pos2.y][pos2.x] = item;
 }
-	
-	
-function makeEventHandler(x, y) {
 
-  return function() {
-	moveItem (findDog(), {"x":x, "y":y});
+function moveDog (x,y){
+    moveItem (findDog(), {"x":x, "y":y});
 	
 	moveItem ({"x":x-1, "y":y-1}, {"x":x-2, "y":y-2});
 	moveItem ({"x": x, "y": y-1}, {"x": x, "y":y-2});
@@ -69,6 +66,12 @@ function makeEventHandler(x, y) {
 	moveItem ({"x": x, "y": y+1}, {"x": x, "y":y+2});
 	moveItem ({"x": x+1, "y": y+1}, {"x": x+2, "y":y+2});
 	render();
+}
+	
+function makeEventHandler(x, y) {
+
+  return function() {
+	moveDog(x,y);
   }
 }
 
@@ -106,7 +109,22 @@ function render(){
 }
 
 function handleKeypress (event){
-	console.log(event.which);
+	var doglocal = findDog();
+    console.log(event.which);
+    if (event.which == 97){
+        moveDog(doglocal.x-1,doglocal.y);
+        console.log("moving left");
+    }else if (event.which == 115){
+        moveDog(doglocal.x,doglocal.y+1);
+        console.log("moving down");
+    }else if (event.which == 100){
+        moveDog(doglocal.x+1,doglocal.y);
+        console.log("moving right");
+    }else if (event.which == 119){
+        moveDog(doglocal.x,doglocal.y-1);
+        console.log("moving up");
+    }
+    
 }
 
 function init(){
