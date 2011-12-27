@@ -1,0 +1,14 @@
+td {
+	width: 80px;
+	height: 80px;
+	background: url(grass.jpg);
+}
+
+img {
+	width: 80px;
+	height: 80px;
+	}
+	
+element.style {
+	height:80px;
+}
