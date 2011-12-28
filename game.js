@@ -1,34 +1,42 @@
 
 
 var board = [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-	]
+	[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+ ]
+    
+   
 	
 //0=nothing 1=sheep 2=dog
 var DOG = 2;
 var SHEEP = 1;
 var NULL = 0;
 var PEN = 3;
+var SEA = 9;
 
-board [4][3] = SHEEP;
+var height = 10;
+var width = 15;
+var death = 0;
+var win = 0;
+
 board [3][6] = DOG;
 board [5][5] = PEN;
 board [2][6] = SHEEP;
-board [1][3] = SHEEP;
+board [2][3] = SHEEP;
+
 
 
 function findDog () {
-	for (var row=0; row<10; row++){
-		for (var col=0; col<10; col++){
+	for (var row=0; row<height; row++){
+		for (var col=0; col<width; col++){
 			if (board[row][col] == DOG){
 				return {x:col, y:row};
 			}
@@ -36,26 +44,40 @@ function findDog () {
 	}
 }
 
+
+
+            
+
+            
+            
 function moveItem (pos1, pos2){
-    if (pos2.y < 0 || pos2.y >=10 || pos2.x <0 || pos2.x >= 10){
+    if (pos2.y < 0 || pos2.y >=height || pos2.x <0 || pos2.x >= width){
 			return;
     }
     
     if (board[pos1.y][pos1.x]==NULL){
         return;
     }    
-    else if (board[pos1.y][pos1.x] ==SHEEP){
-       if (board[pos2.y][pos2.x] == SHEEP || board[pos2.y][pos2.x] == DOG){
+    if (board[pos1.y][pos1.x] ==SHEEP){
+        if (board[pos2.y][pos2.x] == DOG || board[pos2.y][pos2.x]==SHEEP){
             console.log ("NO!");
             return;
-        }
-        if (board[pos2.y][pos2.x]==PEN){
+        } /*else if (board[pos2.y][pos2.x]==SHEEP){
+            sheepPush();
+              
+        } */else if (board[pos2.y][pos2.x]==PEN){
             console.log("The sheep have entered the building");
             board [pos1.y][pos1.x] = NULL;
+            sheepGain();
+            return;
+        } else if (board[pos2.y][pos2.x]==SEA){
+            board [pos1.y][pos1.x] = NULL;
+            alert("You lost a sheep!");
+            sheepLoss();
             return;
         }
     } else if (board[pos1.y][pos1.x] == DOG){
-        if (board[pos2.y][pos2.x] == SHEEP || board[pos2.y][pos2.x] == PEN){
+        if (board[pos2.y][pos2.x] == SHEEP || board[pos2.y][pos2.x] == PEN || board[pos2.y][pos2.x] == SEA){
             console.log ("NO!");
             return;
         }
@@ -72,13 +94,51 @@ function moveItem (pos1, pos2){
 function moveDog (x,y){
     moveItem (findDog(), {"x":x, "y":y});
     moveSheep();
+    sheepBabies();
     render();
 }
 
+function sheepLoss(){
+    death += 1;
+    if (death >= 5){
+        for (var row=0; row<height; row++){
+            for (var col=0; col<width; col++){
+                board [row][col] = NULL;
+                alert("You LOSE!");
+            }
+        }
+    }
+}
+
+function sheepBabies(){
+    for (var row=0; row<height; row++){
+		for (var col=0; col<width; col++){
+			if (board[row][col] == SHEEP && board[row][col-1]==SHEEP){
+            console.log("BABIES!");
+                if (board[row][col-2]==SEA || board[row][col-2]==DOG || board[row][col-2]==PEN){
+                    console.log("No Babies!");
+                    return;
+                }
+                board[row][col-2]=SHEEP;
+            }if (board[row][col]==SHEEP && board[row-1][col]==SHEEP){
+                 console.log("BABIES!");
+                if (board[row-2][col]==SEA || board[row][col-2]==DOG || board[row][col-2]==PEN){
+                    console.log("No Babies!");
+                    return;
+                }
+                board[row-2][col]=SHEEP;    	
+			}
+		}
+	}
+}
+
+
 function moveSheep(){
+
     var doglocal = findDog();
     var x = doglocal.x
     var y = doglocal.y
+   
     moveItem({"x":x-1, "y":y-1},{"x":x-2, "y":y-2});
     moveItem({"x":x, "y":y-1},{"x":x, "y":y-2});
     moveItem({"x":x+1, "y":y-1},{"x":x+2, "y":y-2});
@@ -86,7 +146,48 @@ function moveSheep(){
     moveItem({"x":x+1, "y":y},{"x":x+2, "y":y});
     moveItem({"x":x-1, "y":y+1},{"x":x-2, "y":y+2});
     moveItem({"x":x, "y":y+1},{"x":x, "y":y+2});
-    moveItem({"x":x+1, "y":y+1},{"x":x+2, "y":y+2});    
+    moveItem({"x":x+1, "y":y+1},{"x":x+2, "y":y+2});  
+
+    /*for (var row=0; row<height; row++){
+        for (var col=0; col<width; col++){
+            if (board[row][col] == SHEEP){
+                console.log("BAAAH");
+                if (row<=2){ 
+                    if (col<=3){
+                        moveItem({"x":col, "y":row},{"x":col+1, "y":row+1}); 
+                    }
+                    else if (col<=9){
+                        moveItem({"x":col, "y":row},{"x":col, "y":row+1});
+                    }
+                    else if (col<=14){
+                        moveItem({"x":col, "y":row},{"x":col-1, "y":row+1});
+                    }   
+                }
+                else if (row <=6){
+                    if (col<=3){
+                        moveItem({"x":col, "y":row},{"x":col+1, "y":row}); 
+                    }
+                    else if (col <=9){
+                        console.log("Nothing"); 
+                    }
+                    else if (col<=14){
+                        moveItem({"x":col, "y":row},{"x":col-1, "y":row});
+                    }
+                }
+                else if (row <=8){
+                    if (col<=3){
+                        moveItem({"x":col, "y":row},{"x":col+1, "y":row-1}); 
+                    }
+                    else if (col <=9){
+                        moveItem({"x":col, "y":row},{"x":col, "y":row-1}); 
+                    }
+                    else if (col<=14){
+                        moveItem({"x":col, "y":row},{"x":col-1, "y":row-1});
+                    }
+                }
+            }                
+        }
+    }*/
 }          
 	
 function makeEventHandler(x, y) {
@@ -102,11 +203,13 @@ function render(){
 	html = "";
 	// print table
 	html += "<table>";
-	for (var y=0; y<10; y++){
+	for (var y=0; y<height; y++){
 		html +="<tr>";
-		for (var x=0; x<10; x++){
+		for (var x=0; x<width; x++){
 			html += "<td id='"+y+"_"+x+"'>";
-			if 	(board[y][x] == SHEEP){
+            if (board[y][x]==SEA){
+                html+="<img src='sea.jpg' />"
+			}else if 	(board[y][x] == SHEEP){
 				html +="<img src='sheep.jpg' />";
 			}else if (board [y][x] == DOG){
 				html +="<img src='dog.jpg' />";
@@ -119,25 +222,13 @@ function render(){
 	}
 	html+="</table>";
     
-    var sheepCount = 0;
-    for (var row=0; row<10; row++){
-		for (var col=0; col<10; col++){
-			if (board[row][col] == SHEEP){
-                sheepCount += 1;
-			}
-		}
-	}
-    console.log(sheepCount);
-    if (sheepCount == 0){
-        alert("YOU WIN!");
-    }
-    
-    
+   sheepCount();
+   
 	
 	document.getElementById("game").innerHTML = html
 	
-	for (var y=0; y<10; y++){
-		for (var x=0; x<10; x++){
+	for (var y=0; y<height; y++){
+		for (var x=0; x<width; x++){
 			var el = document.getElementById(""+y+"_"+x);
 			el.addEventListener(
 				'click',
@@ -146,6 +237,33 @@ function render(){
 		}
 	}
 }
+
+function sheepGain (){
+    win += 1;
+    console.log("win equals " + win);
+    if (win>=5){
+        for (var row=0; row<height; row++){
+            for (var col=0; col<width; col++){
+                board [row][col] = NULL;
+            }
+        }
+        alert("You Win!");
+    }
+}
+
+function sheepCount (){
+    var sheepNum = 0;
+     for (var row=0; row<height; row++){
+		for (var col=0; col<width; col++){
+			if (board[row][col] == SHEEP){
+                sheepNum += 1;
+			}
+		}
+	}
+    console.log("There are" + sheepNum + "sheep");
+}
+
+
 
 function handleKeypress (event){
 	var doglocal = findDog();
