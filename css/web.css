@@ -1,8 +1,8 @@
-td {
+/*td {
 	width: 60px;
 	height: 60px;
 	background: url(grass.jpg);
-}
+}*/
 
 table {
     border-collapse: collapse;
@@ -12,7 +12,19 @@ img {
 	width: 60px;
 	height: 60px;
 	}
-	
+
 element.style {
 	height:80px;
+}
+
+.Row-Div{
+	overflow: auto;
+	width: 500px;
+}
+
+.Row-Div div{
+	width: 60px;
+	height: 60px;
+	background:url(grass.jpg);
+	float: left;
 }
