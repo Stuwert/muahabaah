@@ -6,7 +6,7 @@ var board = [
     [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
     [9, 0, 0, 0, 3, 0, 0, 0, 0, 9],
     [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-    [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 2, 0, 0, 9],
     [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
 		[9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
 		[9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
@@ -14,15 +14,36 @@ var board = [
  ];
 
  var dog = {
+	 type: "dog",
 	 x: 5,
 	 y: 6,
  }
 
 //0=grass 1=sheep 2=dog, 3=pen 9=sea
 
- function placeDog (doggy){
-	board[doggy.x][doggy.y] = 2;
- }
+ function moveObj(obj, deltaX, deltaY){
+	 var positionHolder = {}
+	 positionHolder.x = obj.x;
+	 positionHolder.y = obj.y;
+	 if (moveCheck(positionHolder, deltaX, deltaY)){
+		 obj.x = obj.x + deltaX;
+		 obj.y = obj.y + deltaY;
+		if (obj.type === "dog"){
+			board[obj.x][obj.y] = 2;
+		}
+		board[positionHolder.x][positionHolder.y] = 0;
+	}else{
+		alert ("Ya can't move there bro!");
+	}
+};
+
+function moveCheck (originalPosition, newX, newY){
+	if (board[originalPosition.x + newX][originalPosition.y + newY] !== 0){
+		return false;
+	}else{
+		return true;
+	}
+}
 
  var sheepGroup =[
 	 {

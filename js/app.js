@@ -6,7 +6,6 @@ canvas.height = 500;
 document.body.appendChild(canvas);
 
 var renderTest = function(){
-  placeDog(dog);
   for (var i=0; i<board.length; i++){
     for (var j=0; j<board[i].length; j++){
       if (board[i][j]===9){
@@ -33,16 +32,19 @@ var renderTest = function(){
 renderTest();
 
 document.addEventListener('keydown', function(e){
+  var newX = 0;
+  var newY = 0;
   console.log("bing");
   if (e.keyCode === 38){
-    dog.y -= 1;
+    newY -= 1;
   }else if (e.keyCode === 40){
-    dog.y +=1;
+    newY +=1;
   }else if (e.keyCode === 37){
-    dog.x -= 1;
+    newX -= 1;
   }else if (e.keyCode === 39){
-    dog.x +=1;
+    newX +=1;
   }
+  moveObj(dog, newX, newY);
   renderTest();
 });
 
