@@ -9,7 +9,7 @@ var gameObjects = {
 		{
 			x: 6,
 			y: 6
-		}
+		},
 	],
 	"pen":{
 		x: 3,
@@ -17,15 +17,17 @@ var gameObjects = {
 	}
 }
 
+var score = 0;
+
 //create board
 
 
 function createBoard (){
 	var board = [];
-	for (var x=0; x<=10; x++){
+	for (var x=0; x<ratio; x++){
 		board[x] = [];
-		for (var y=0; y<=10; y++){
-			if (x === 0 || x === 9 || y === 0 || y === 9){
+		for (var y=0; y<ratio; y++){
+			if (x === 0 || x === ratio-1 || y === 0 || y === ratio-1){
 				board[x][y] = "sea";
 			}else{
 				board[x][y] = "grass";
@@ -39,9 +41,11 @@ function createBoard (){
 			board[xCord][yCord] = elements;
 		}else{
 				for (var i=0; i<gameObjects[elements].length; i++){
+					if(gameObjects[elements][i].status !== "penned"){
 					xCord = gameObjects[elements][i].x;
 					yCord = gameObjects[elements][i].y;
 					board[xCord][yCord] = elements;
+				}
 				}
 		}
 	}
@@ -51,22 +55,23 @@ function createBoard (){
 
 
 function moveObj(obj, deltaX, deltaY){
-	 if (moveCheck(obj, obj.x+deltaX, obj.y+deltaY)){
+	if (objectAt(obj, obj.x, obj.y) === "sheep" && objectAt(obj, obj.x+deltaX, obj.y+deltaY) === "pen"){
+		obj.status = "penned";
+		obj.x = null;
+		obj.y = null;
+		score =+ 1;
+	}else if (objectAt(obj, obj.x+deltaX, obj.y+deltaY)==="grass"){
 		 obj.x = obj.x + deltaX;
 		 obj.y = obj.y + deltaY;
 	 }
+	 console.log(obj);
 };
 
-function moveCheck (originalPosition, newX, newY){
-	var placeCheck = createBoard();
-	if (placeCheck[newX][newY] === "grass"){
-		return true;
-	}else{
-		return false;
-	}
+function objectAt (originalPosition, x, y){
+	return createBoard()[x][y];
 }
 
-function thingCheck(obj1, index){
+function thingCheck(obj1){
 	var delta = [];
 	delta[0] = obj1.x - this.x;
 	delta[1] = obj1.y - this.y;
@@ -76,3 +81,12 @@ function thingCheck(obj1, index){
 		moveObj(obj1, delta[0], delta[1]);
 	}
 };
+
+function moveRandom(obj){
+	obj.x += getRandom(-1,1);
+	obj.y += getRandom (-1,1);
+}
+
+function getRandom(min, max) {
+  return +(Math.random() * (max - min)+ min).toFixed(0);
+}

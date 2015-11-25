@@ -1,9 +1,13 @@
 //Initializes canvas.
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 500;
-canvas.height = 500;
+var size = 400;
+canvas.width = size;
+canvas.height = size;
 document.body.appendChild(canvas);
+var gameUnit = 8;
+var ratio = size/gameUnit;
+
 
 var render = function(){
   var board = createBoard();
@@ -11,26 +15,25 @@ var render = function(){
     for (var y=0; y<board[x].length; y++){
       if (board[x][y] === "sea"){
         ctx.fillStyle = "blue";
-        ctx.fillRect(x*50, y*50, 50, 50);
+        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board[x][y] === "grass"){
         ctx.fillStyle = "green";
-        ctx.fillRect(x*50, y*50, 50, 50)
+        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
       }else if (board[x][y]=== "sheep"){
         ctx.fillStyle = "#8AC4FF";
-        ctx.fillRect(x*50, y*50, 50, 50);
+        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board [x][y] === "dog"){
         ctx.fillStyle = "black";
-        ctx.fillRect(x*50, y*50, 50, 50);
+        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board[x][y]=== "pen"){
         ctx.fillStyle = "white";
-        ctx.fillRect(x*50, y*50, 50, 50);
+        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }
     }
   }
-
+  document.getElementsByTagName('p')[0].innerText = "Your Score is: " + score;
 }
 
-render();
 
 document.addEventListener('keydown', function(e){
   var newX = 0;
@@ -48,7 +51,10 @@ document.addEventListener('keydown', function(e){
     moveObj(gameObjects.dog, newX, newY);
   }
   render();
-
   gameObjects.sheep.forEach(thingCheck, gameObjects.dog);
   render();
+  gameObjects.sheep.forEach(moveRandom);
 });
+
+
+render();
