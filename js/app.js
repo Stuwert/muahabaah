@@ -1,11 +1,11 @@
 //Initializes canvas.
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-var size = 400;
+var size = 600;
 canvas.width = size;
 canvas.height = size;
 document.body.appendChild(canvas);
-var gameUnit = 8;
+var gameUnit = 12;
 var ratio = size/gameUnit;
 
 
@@ -20,13 +20,13 @@ var render = function(){
         ctx.fillStyle = "green";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
       }else if (board[x][y]=== "sheep"){
-        ctx.fillStyle = "#8AC4FF";
+        ctx.fillStyle = "white";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board [x][y] === "dog"){
         ctx.fillStyle = "black";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board[x][y]=== "pen"){
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "brown";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }
     }
@@ -56,5 +56,4 @@ document.addEventListener('keydown', function(e){
   gameObjects.sheep.forEach(moveRandom);
 });
 
-
-render();
+init();

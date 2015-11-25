@@ -5,12 +5,7 @@ var gameObjects = {
 		x: 8,
 		y: 1
 	},
-	"sheep":[
-		{
-			x: 6,
-			y: 6
-		},
-	],
+	"sheep":[],
 	"pen":{
 		x: 3,
 		y: 4
@@ -64,21 +59,24 @@ function moveObj(obj, deltaX, deltaY){
 		 obj.x = obj.x + deltaX;
 		 obj.y = obj.y + deltaY;
 	 }
-	 console.log(obj);
 };
 
 function objectAt (originalPosition, x, y){
-	return createBoard()[x][y];
+	if (x < 0 || y < 0){
+		return null;
+	}else{
+		return createBoard()[x][y];
+	}
 }
 
 function thingCheck(obj1){
 	var delta = [];
 	delta[0] = obj1.x - this.x;
 	delta[1] = obj1.y - this.y;
-	console.log(delta[0]);
-	console.log(delta[1]);
-	if (Math.abs(delta[0]) <= 1 && Math.abs(delta[1]) <= 1){
-		moveObj(obj1, delta[0], delta[1]);
+	console.log(delta[0]/Math.abs(delta[0]));
+	console.log(delta[1]/Math.abs(delta[1]));
+	if (Math.abs(delta[0]) <= 10 && Math.abs(delta[1]) <= 10){
+		moveObj(obj1, delta[0]/Math.abs(delta[0]), delta[1]/Math.abs(delta[0]));
 	}
 };
 
@@ -90,4 +88,13 @@ function moveRandom(obj){
 
 function getRandom(min, max) {
   return +(Math.random() * (max - min)+ min).toFixed(0);
+}
+
+function init(){
+	for (var i=0; i<6; i++){
+		gameObjects.sheep[i] = {};
+		gameObjects.sheep[i].x = getRandom(10, 30);
+		gameObjects.sheep[i].y = getRandom(10, 30);
+	}
+	render();
 }

@@ -4,10 +4,6 @@ You are a dog trying to herd sheep into a pen.  The sheep will avoid you, breed,
 
 ## To Do
 
-- Recreate Render to pull items from objects instead of the board variable.
-
 - Implement sheep breeding.
-
-- Implement scoring.
-
-- Implement sheep going into pen functionality. 
+- Implement sheep death.
+- Implement random sheep generation.
