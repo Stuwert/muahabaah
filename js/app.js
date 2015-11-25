@@ -12,16 +12,16 @@ var render = function(){
       if (board[x][y] === "sea"){
         ctx.fillStyle = "blue";
         ctx.fillRect(x*50, y*50, 50, 50);
-      }else if (board[x][y] === 0){
+      }else if (board[x][y] === "grass"){
         ctx.fillStyle = "green";
         ctx.fillRect(x*50, y*50, 50, 50)
-      }else if (board[x][y]===1){
+      }else if (board[x][y]=== "sheep"){
         ctx.fillStyle = "#8AC4FF";
         ctx.fillRect(x*50, y*50, 50, 50);
-      }else if (board [x][y] ===2){
+      }else if (board [x][y] === "dog"){
         ctx.fillStyle = "black";
         ctx.fillRect(x*50, y*50, 50, 50);
-      }else if (board[x][y]===3){
+      }else if (board[x][y]=== "pen"){
         ctx.fillStyle = "white";
         ctx.fillRect(x*50, y*50, 50, 50);
       }
@@ -32,21 +32,23 @@ var render = function(){
 
 render();
 
-// document.addEventListener('keydown', function(e){
-//   var newX = 0;
-//   var newY = 0;
-//   if (e.keyCode === 38){
-//     newY -= 1;
-//   }else if (e.keyCode === 40){
-//     newY +=1;
-//   }else if (e.keyCode === 37){
-//     newX -= 1;
-//   }else if (e.keyCode === 39){
-//     newX +=1;
-//   }
-//   if (newX + newY !== 0){
-//     moveObj(dog, newX, newY);
-//   }
-//   sheepGroup.forEach(thingCheck, dog);
-//   renderTest();
-// });
+document.addEventListener('keydown', function(e){
+  var newX = 0;
+  var newY = 0;
+  if (e.keyCode === 38){
+    newY -= 1;
+  }else if (e.keyCode === 40){
+    newY +=1;
+  }else if (e.keyCode === 37){
+    newX -= 1;
+  }else if (e.keyCode === 39){
+    newX +=1;
+  }
+  if (newX + newY !== 0){
+    moveObj(gameObjects.dog, newX, newY);
+  }
+  render();
+
+  gameObjects.sheep.forEach(thingCheck, gameObjects.dog);
+  render();
+});
