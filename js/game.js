@@ -83,8 +83,7 @@ function thingCheck(obj1){
 };
 
 function moveRandom(obj){
-	obj.x += getRandom(-1,1);
-	obj.y += getRandom (-1,1);
+	moveObj(obj, getRandom(-1,1), getRandom(-1,1) )
 }
 
 function getRandom(min, max) {
