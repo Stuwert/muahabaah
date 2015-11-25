@@ -31,7 +31,7 @@ var render = function(){
       }
     }
   }
-  document.getElementsByTagName('p')[0].innerText = "Your Score is: " + score;
+  document.getElementById('score').innerText = "Your Score is: " + score;
 }
 
 

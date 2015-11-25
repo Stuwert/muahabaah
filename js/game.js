@@ -83,7 +83,9 @@ function thingCheck(obj1){
 };
 
 function moveRandom(obj){
-	moveObj(obj, getRandom(-1,1), getRandom(-1,1) )
+	if (obj.status !== "penned"){
+		moveObj(obj, getRandom(-1,1), getRandom(-1,1) )
+	}
 }
 
 function getRandom(min, max) {
