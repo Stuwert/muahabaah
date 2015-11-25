@@ -7,8 +7,8 @@ var board = [
     [9, 0, 0, 0, 3, 0, 0, 0, 0, 9],
     [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
     [9, 0, 0, 0, 0, 0, 2, 0, 0, 9],
-    [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-		[9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [9, 0, 0, 0, 0, 0, 1, 0, 0, 9],
+		[9, 0, 0, 0, 0, 0, 0, 1, 0, 9],
 		[9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
 		[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
  ];
@@ -21,19 +21,19 @@ var board = [
 
 //0=grass 1=sheep 2=dog, 3=pen 9=sea
 
- function moveObj(obj, deltaX, deltaY){
-	 var positionHolder = {}
-	 positionHolder.x = obj.x;
-	 positionHolder.y = obj.y;
+function moveObj(obj, deltaX, deltaY){
+	var positionHolder = {};
+	positionHolder.x = obj.x;
+	positionHolder.y = obj.y;
 	 if (moveCheck(positionHolder, deltaX, deltaY)){
 		 obj.x = obj.x + deltaX;
 		 obj.y = obj.y + deltaY;
 		if (obj.type === "dog"){
 			board[obj.x][obj.y] = 2;
+		}else if (obj.type === "sheep"){
+			board[obj.x][obj.y] = 1;
 		}
 		board[positionHolder.x][positionHolder.y] = 0;
-	}else{
-		alert ("Ya can't move there bro!");
 	}
 };
 
@@ -45,18 +45,31 @@ function moveCheck (originalPosition, newX, newY){
 	}
 }
 
+function thingCheck(obj1, index){
+	var delta = [];
+	delta[0] = obj1.x - this.x;
+	delta[1] = obj1.y - this.y;
+	console.log(delta[0]+delta[1]);
+	if (Math.abs(delta[0]) <= 1 && Math.abs(delta[1]) <= 1 && Math.abs(delta[0]+delta[1]) <= 1){
+		moveObj(obj1, delta[0], delta[1]);
+
+	}
+};
+
+
  var sheepGroup =[
 	 {
+		 type: "sheep",
 		 x: 6,
 		 y: 6
 	 },
 	 {
+		 type: "sheep",
 		 x: 7,
 		 y: 7
 	 }
 
- ]
-
+ ];
 
 
 //0=nothing 1=sheep 2=dog, 3=pen 9=sea

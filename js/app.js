@@ -15,7 +15,7 @@ var renderTest = function(){
         ctx.fillStyle = "green";
         ctx.fillRect(i*50, j*50, 50, 50)
       }else if (board[i][j]===1){
-        ctx.fillStyle = "grey";
+        ctx.fillStyle = "#8AC4FF";
         ctx.fillRect(i*50, j*50, 50, 50);
       }else if (board [i][j] ===2){
         ctx.fillStyle = "black";
@@ -34,7 +34,6 @@ renderTest();
 document.addEventListener('keydown', function(e){
   var newX = 0;
   var newY = 0;
-  console.log("bing");
   if (e.keyCode === 38){
     newY -= 1;
   }else if (e.keyCode === 40){
@@ -44,7 +43,10 @@ document.addEventListener('keydown', function(e){
   }else if (e.keyCode === 39){
     newX +=1;
   }
-  moveObj(dog, newX, newY);
+  if (newX + newY !== 0){
+    moveObj(dog, newX, newY);
+  }
+  sheepGroup.forEach(thingCheck, dog);
   renderTest();
 });
 
