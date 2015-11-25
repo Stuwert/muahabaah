@@ -1,3 +1,24 @@
+//initalize dog
+var dog = {
+	type: "dog",
+	x: 5,
+	y: 6,
+}
+
+// initalize sheep
+var sheepGroup =[
+	{
+		type: "sheep",
+		x: 6,
+		y: 6
+	},
+	{
+		type: "sheep",
+		x: 7,
+		y: 7
+	}
+];
+
 
 
 var board = [
@@ -13,11 +34,7 @@ var board = [
 		[9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
  ];
 
- var dog = {
-	 type: "dog",
-	 x: 5,
-	 y: 6,
- }
+
 
 //0=grass 1=sheep 2=dog, 3=pen 9=sea
 
@@ -57,19 +74,7 @@ function thingCheck(obj1, index){
 };
 
 
- var sheepGroup =[
-	 {
-		 type: "sheep",
-		 x: 6,
-		 y: 6
-	 },
-	 {
-		 type: "sheep",
-		 x: 7,
-		 y: 7
-	 }
 
- ];
 
 
 //0=nothing 1=sheep 2=dog, 3=pen 9=sea
