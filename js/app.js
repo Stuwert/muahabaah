@@ -55,7 +55,9 @@ document.addEventListener('keydown', function(e){
   gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
   gameObjects.sheep.forEach(freeWill);
   gameObjects.sheep.forEach(age);
+  makeBabies();
   render();
+
 });
 
 init();

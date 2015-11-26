@@ -53,22 +53,69 @@ function createBoard (){
 
 
 function moveObj(obj, deltaX, deltaY){
-	if (objectAt(obj, obj.x, obj.y) === "sheep" && objectAt(obj, obj.x+deltaX, obj.y+deltaY) === "pen"){
+	if (objectAt(obj.x, obj.y) === "sheep" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
 		obj.status = "penned";
 		obj.x = null;
 		obj.y = null;
 		score += 1;
-	}else if (objectAt(obj, obj.x+deltaX, obj.y+deltaY)==="grass"){
+	}else if (objectAt(obj.x+deltaX, obj.y+deltaY)==="grass"){
 		 obj.x = obj.x + deltaX;
 		 obj.y = obj.y + deltaY;
 	 }
 };
 
-function objectAt (originalPosition, x, y){
+function objectAt (x, y){
 	if (x < 0 || y < 0){
 		return null;
 	}else{
 		return createBoard()[x][y];
+	}
+}
+
+function makeBabies (){
+	console.log("break");
+	var newSheep = 0;
+	var sheepObject = gameObjects.sheep;
+	for (var i=0; i<sheepObject.length; i++){
+		var currentSheep = sheepObject[i];
+		console.log(currentSheep);
+		var curX = currentSheep.x;
+		var curY = currentSheep.y;
+		if (currentSheep.age > 2 && currentSheep.age < 8 ){
+			for (var j=0; j<sheepObject.length; j++){
+				var otherX = sheepObject[j].x;
+				var otherY = sheepObject[j].y;
+				if (curY === otherY){
+					switch(curX){
+						case otherX -1:
+							newSheep++;
+							break;
+						case otherX +1:
+							newSheep++;
+							break;
+						default:
+							newSheep +=0;
+					}
+				}
+				if (curX === otherX){
+					switch(curY){
+						case otherY-1:
+							newSheep++;
+							break;
+						case otherY +1:
+							newSheep++;
+							break;
+						default:
+							newSheep += 0;
+					}
+				}
+			}
+		}
+	}
+	newSheep = newSheep/2;
+	var sheepCount = sheepObject.length;
+	for (var i = sheepCount; i < sheepCount + newSheep; i++){
+		makeNewSheep(i);
 	}
 }
 
@@ -146,8 +193,6 @@ function getRandom(min, max) {
 function countSheepDeaths(){
 	var total = 0;
 	for (sheep in gameObjects.sheep){
-		console.log(gameObjects.sheep[sheep].status);
-		console.log(gameObjects.sheep[sheep].age);
 		if (gameObjects.sheep[sheep].status === "dead"){
 			total += 1;
 		}
@@ -155,13 +200,19 @@ function countSheepDeaths(){
 	return total;
 }
 
+function makeNewSheep(i){
+	gameObjects.sheep[i] = {};
+	gameObjects.sheep[i].x = getRandom(2, 17);
+	gameObjects.sheep[i].y = getRandom(2, 17);
+	gameObjects.sheep[i].age = 0;
+	gameObjects.sheep[i].status = "active";
+}
+
 function init(){
 	for (var i=0; i<6; i++){
-		gameObjects.sheep[i] = {};
-		gameObjects.sheep[i].x = getRandom(2, 17);
-		gameObjects.sheep[i].y = getRandom(2, 17);
-		gameObjects.sheep[i].age = 0;
-		gameObjects.sheep[i].status = "active";
+		console.log(i);
+		makeNewSheep(i);
 	}
+	console.log(gameObjects.sheep);
 	render();
 }
