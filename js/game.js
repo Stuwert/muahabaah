@@ -73,15 +73,13 @@ function objectAt (x, y){
 }
 
 function makeBabies (){
-	console.log("break");
 	var newSheep = 0;
 	var sheepObject = gameObjects.sheep;
 	for (var i=0; i<sheepObject.length; i++){
 		var currentSheep = sheepObject[i];
-		console.log(currentSheep);
 		var curX = currentSheep.x;
 		var curY = currentSheep.y;
-		if (currentSheep.age > 2 && currentSheep.age < 8 ){
+		if (currentSheep.age > 4 && currentSheep.age < 11 ){
 			for (var j=0; j<sheepObject.length; j++){
 				var otherX = sheepObject[j].x;
 				var otherY = sheepObject[j].y;
@@ -112,11 +110,23 @@ function makeBabies (){
 			}
 		}
 	}
-	newSheep = newSheep/2;
+	newSheep = gestation(newSheep);
 	var sheepCount = sheepObject.length;
 	for (var i = sheepCount; i < sheepCount + newSheep; i++){
 		makeNewSheep(i);
 	}
+}
+
+function gestation(number){
+	var babies = 0;
+	for (var i=0; i<number; i++){
+		var randomizer = getRandom(0,2);
+		console.log(randomizer);
+		if (randomizer === 1){
+			babies += 1;
+		}
+	}
+	return babies;
 }
 
 function dogCheck(obj1){
@@ -152,7 +162,7 @@ function sheepCheck(obj){
 
 function age (obj){
 	obj.age +=1;
-	if (obj.age >= 10){
+	if (obj.age >= 15){
 		obj.status = "dead";
 	}
 }
@@ -210,9 +220,7 @@ function makeNewSheep(i){
 
 function init(){
 	for (var i=0; i<6; i++){
-		console.log(i);
 		makeNewSheep(i);
 	}
-	console.log(gameObjects.sheep);
 	render();
 }
