@@ -53,10 +53,9 @@ document.addEventListener('keydown', function(e){
   render();
   gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
   gameObjects.sheep.forEach(freeWill);
+  gameObjects.sheep.forEach(age);
   window.setTimeout(render, 150);
-  console.log("Sheep moving randomly: " + randoms);
-  console.log("Sheep moving with pack: " + pack);
-  console.log("Sheep doing nothing: " + doNothing);
+  makeBabies();
 });
 
 init();
