@@ -5,5 +5,3 @@ You are a dog trying to herd sheep into a pen.  The sheep will avoid you, breed,
 ## To Do
 
 - Implement "intelligent" sheep movement.
-- Sheep breeding as a function of sheep #;
-- Check living sheep.

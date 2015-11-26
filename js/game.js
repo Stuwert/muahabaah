@@ -53,7 +53,7 @@ function createBoard (){
 
 
 function moveObj(obj, deltaX, deltaY){
-	if (objectAt(obj.x, obj.y) === "sheep" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
+	if (typeof objectAt(obj.x, obj.y) === "number" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
 		obj.status = "penned";
 		obj.x = null;
 		obj.y = null;
@@ -73,54 +73,30 @@ function objectAt (x, y){
 }
 
 function makeBabies (){
-	var newSheep = 0;
-	var sheepObject = gameObjects.sheep;
-	for (var i=0; i<sheepObject.length; i++){
-		var currentSheep = sheepObject[i];
-		var curX = currentSheep.x;
-		var curY = currentSheep.y;
-		if (currentSheep.age > 4 && currentSheep.age < 11 ){
-			for (var j=0; j<sheepObject.length; j++){
-				var otherX = sheepObject[j].x;
-				var otherY = sheepObject[j].y;
-				if (curY === otherY){
-					switch(curX){
-						case otherX -1:
-							newSheep++;
-							break;
-						case otherX +1:
-							newSheep++;
-							break;
-						default:
-							newSheep +=0;
-					}
-				}
-				if (curX === otherX){
-					switch(curY){
-						case otherY-1:
-							newSheep++;
-							break;
-						case otherY +1:
-							newSheep++;
-							break;
-						default:
-							newSheep += 0;
-					}
-				}
-			}
-		}
+	var currentSheep = gameObjects.sheep;
+	var breedingAgeSheepNumber = currentSheep.filter(ageValue).length;
+	if (breedingAgeSheepNumber % 2 !== 0){
+		breedingAgeSheepNumber--;
 	}
-	newSheep = gestation(newSheep);
-	var sheepCount = sheepObject.length;
-	for (var i = sheepCount; i < sheepCount + newSheep; i++){
+	newSheep = gestation(breedingAgeSheepNumber/2);
+	var currentSheepNumber = currentSheep.length;
+	for (var i = currentSheepNumber; i < currentSheepNumber + newSheep; i++){
 		makeNewSheep(i);
+	}
+}
+
+function ageValue(e){
+	if (e.age > 4 && e.age < 11){
+		return true;
+	}else{
+		return false;
 	}
 }
 
 function gestation(number){
 	var babies = 0;
 	for (var i=0; i<number; i++){
-		var randomizer = getRandom(0,2);
+		var randomizer = getRandom(0,3);
 		if (randomizer === 1){
 			babies += 1;
 		}
@@ -130,10 +106,23 @@ function gestation(number){
 
 function dogCheck(obj1){
 	if (obj1.status === "active"){
-		var xDelta = obj1.x - this.x;
-		var yDelta = obj1.y - this.y;
-		if (Math.abs(xDelta) <= 3 && Math.abs(yDelta) <= 3){
-			moveObj(obj1, isPositive(xDelta), isPositive(yDelta));
+		var pen = gameObjects.pen;
+		var dogDeltaX = this.x - obj1.x;
+		var dogDeltaY = this.y - obj1.y;
+		var penDeltaX = pen.x - obj1.x;
+		var penDeltaY = pen.y - obj1.y;
+		if (Math.abs(penDeltaX) <= 1 && Math.abs(penDeltaY) <= 1){
+			moveObj(obj1, penDeltaX, penDeltaY);
+		}else {
+			if (dogDeltaX/penDeltaX < 0 && dogDeltaY/penDeltaY < 0){
+				moveObj(obj1, isPositive(penDeltaX), isPositive(penDeltaX));
+			}else if(dogDeltaX/penDeltaX < 0){
+				moveObj(obj1, isPositive(penDeltaX), 0);
+			}else if(dogDeltaY/penDeltaY < 0){
+				moveObj(obj1, 0, isPositive(penDeltaY));
+			}else{
+				freeWill(obj1);
+			}
 		}
 	}
 };
@@ -177,15 +166,11 @@ function isPositive(number){
 }
 
 function freeWill(obj){
-	var randomizer = [0, 0, 0, 0, 0, 1, 1, 2];
-	if (randomizer[getRandom(0, 7)] === 1){
-		pack++;
+	var randomizer = [1, 1, 2];
+	if (randomizer[getRandom(0, 2)] === 1){
 		sheepCheck(obj);
-	}else if (randomizer[getRandom(0, 13)] === 2){
-		randoms++;
-		moveRandom(obj);
 	}else{
-		doNothing++;
+		moveRandom(obj);
 	}
 }
 
@@ -225,7 +210,6 @@ function areSheepAlive(){
 			livingSheep++;
 		}
 	}
-	console.log(livingSheep);
 	if (livingSheep > 0){
 		return true;
 	}else{
