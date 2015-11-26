@@ -19,7 +19,7 @@ var render = function(){
       }else if (board[x][y] === "grass"){
         ctx.fillStyle = "green";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
-      }else if (board[x][y]=== "sheep"){
+      }else if (typeof board[x][y] === "number"){
         ctx.fillStyle = "white";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board [x][y] === "dog"){
@@ -54,9 +54,6 @@ document.addEventListener('keydown', function(e){
   gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
   gameObjects.sheep.forEach(freeWill);
   window.setTimeout(render, 150);
-  console.log("Sheep moving randomly: " + randoms);
-  console.log("Sheep moving with pack: " + pack);
-  console.log("Sheep doing nothing: " + doNothing);
 });
 
 init();

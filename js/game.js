@@ -42,7 +42,7 @@ function createBoard (){
 					if(gameObjects[elements][i].status !== "penned"){
 						xCord = gameObjects[elements][i].x;
 						yCord = gameObjects[elements][i].y;
-						board[xCord][yCord] = elements;
+						board[xCord][yCord] = gameObjects[elements][i].age;
 					}
 				}
 		}
