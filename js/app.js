@@ -19,8 +19,8 @@ var render = function(){
       }else if (board[x][y] === "grass"){
         ctx.fillStyle = "green";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
-      }else if (board[x][y]=== "sheep"){
-        ctx.fillStyle = "white";
+      }else if (typeof board[x][y]=== "number"){
+        ctx.fillStyle = "rgba(255, 255, 255, " + (1 - (board[x][y]*0.1)) + ")";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
       }else if (board [x][y] === "dog"){
         ctx.fillStyle = "black";
@@ -32,6 +32,7 @@ var render = function(){
     }
   }
   document.getElementById('score').innerText = "Your Score is: " + score;
+  document.getElementById('sheep-death').innerText = countSheepDeaths() + " sheep have died.";
 }
 
 
@@ -53,10 +54,8 @@ document.addEventListener('keydown', function(e){
   render();
   gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
   gameObjects.sheep.forEach(freeWill);
-  window.setTimeout(render, 150);
-  console.log("Sheep moving randomly: " + randoms);
-  console.log("Sheep moving with pack: " + pack);
-  console.log("Sheep doing nothing: " + doNothing);
+  gameObjects.sheep.forEach(age);
+  render();
 });
 
 init();

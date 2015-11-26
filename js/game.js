@@ -39,10 +39,10 @@ function createBoard (){
 			board[xCord][yCord] = elements;
 		}else{
 				for (var i=0; i<gameObjects[elements].length; i++){
-					if(gameObjects[elements][i].status !== "penned"){
+					if(gameObjects[elements][i].status === "active"){
 						xCord = gameObjects[elements][i].x;
 						yCord = gameObjects[elements][i].y;
-						board[xCord][yCord] = elements;
+						board[xCord][yCord] = gameObjects[elements][i].age;
 					}
 				}
 		}
@@ -73,7 +73,7 @@ function objectAt (originalPosition, x, y){
 }
 
 function dogCheck(obj1){
-	if (obj1.status !== "penned"){
+	if (obj1.status === "active"){
 		var xDelta = obj1.x - this.x;
 		var yDelta = obj1.y - this.y;
 		if (Math.abs(xDelta) <= 3 && Math.abs(yDelta) <= 3){
@@ -87,7 +87,7 @@ function sheepCheck(obj){
 	var yTotal = 0;
 	var sheepTotal = gameObjects.sheep.length;
 	for (sheep in gameObjects.sheep){
-		if (gameObjects.sheep[sheep].status === "penned"){
+		if (gameObjects.sheep[sheep].status !== "active"){
 			sheepTotal --;
 		}else{
 			xTotal += gameObjects.sheep[sheep].x;
@@ -98,13 +98,16 @@ function sheepCheck(obj){
 	var yAverage = yTotal/sheepTotal;
 	var xDelta = isPositive(xAverage - obj.x);
 	var yDelta = isPositive(yAverage - obj.y);
-	if (obj.status !== "penned"){
+	if (obj.status === "active"){
 		moveObj(obj, xDelta, yDelta);
 	}
 }
 
 function age (obj){
 	obj.age +=1;
+	if (obj.age >= 10){
+		obj.status = "dead";
+	}
 }
 
 function isPositive(number){
@@ -131,7 +134,7 @@ function freeWill(obj){
 }
 
 function moveRandom(obj){
-	if (obj.status !== "penned"){
+	if (obj.status === "active"){
 		moveObj(obj, getRandom(-1,1), getRandom(-1,1) )
 	}
 }
@@ -140,12 +143,25 @@ function getRandom(min, max) {
   return +(Math.random() * (max - min)+ min).toFixed(0);
 }
 
+function countSheepDeaths(){
+	var total = 0;
+	for (sheep in gameObjects.sheep){
+		console.log(gameObjects.sheep[sheep].status);
+		console.log(gameObjects.sheep[sheep].age);
+		if (gameObjects.sheep[sheep].status === "dead"){
+			total += 1;
+		}
+	}
+	return total;
+}
+
 function init(){
 	for (var i=0; i<6; i++){
 		gameObjects.sheep[i] = {};
 		gameObjects.sheep[i].x = getRandom(2, 17);
 		gameObjects.sheep[i].y = getRandom(2, 17);
 		gameObjects.sheep[i].age = 0;
+		gameObjects.sheep[i].status = "active";
 	}
 	render();
 }
