@@ -6,4 +6,4 @@ You are a dog trying to herd sheep into a pen.  The sheep will avoid you, breed,
 
 - Implement sheep breeding.
 - Implement sheep death.
-- Implement random sheep generation.
+- Implement "intelligent" sheep movement.

@@ -5,7 +5,7 @@ var size = 600;
 canvas.width = size;
 canvas.height = size;
 document.body.appendChild(canvas);
-var gameUnit = 12;
+var gameUnit = 24;
 var ratio = size/gameUnit;
 
 
@@ -51,9 +51,12 @@ document.addEventListener('keydown', function(e){
     moveObj(gameObjects.dog, newX, newY);
   }
   render();
-  gameObjects.sheep.forEach(thingCheck, gameObjects.dog);
-  render();
-  gameObjects.sheep.forEach(moveRandom);
+  gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
+  gameObjects.sheep.forEach(freeWill);
+  window.setTimeout(render, 150);
+  console.log("Sheep moving randomly: " + randoms);
+  console.log("Sheep moving with pack: " + pack);
+  console.log("Sheep doing nothing: " + doNothing);
 });
 
 init();

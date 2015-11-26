@@ -1,15 +1,18 @@
 //initialize game objects
+var randoms = 0;
+var pack = 0;
+var doNothing = 0;
 
 var gameObjects = {
 	"dog": {
-		x: 8,
-		y: 1
+		x: 12,
+		y: 12
 	},
 	"sheep":[],
 	"pen":{
-		x: 3,
-		y: 4
-	}
+		x: 10,
+		y: 10
+	},
 }
 
 var score = 0;
@@ -37,10 +40,10 @@ function createBoard (){
 		}else{
 				for (var i=0; i<gameObjects[elements].length; i++){
 					if(gameObjects[elements][i].status !== "penned"){
-					xCord = gameObjects[elements][i].x;
-					yCord = gameObjects[elements][i].y;
-					board[xCord][yCord] = elements;
-				}
+						xCord = gameObjects[elements][i].x;
+						yCord = gameObjects[elements][i].y;
+						board[xCord][yCord] = elements;
+					}
 				}
 		}
 	}
@@ -54,7 +57,7 @@ function moveObj(obj, deltaX, deltaY){
 		obj.status = "penned";
 		obj.x = null;
 		obj.y = null;
-		score =+ 1;
+		score += 1;
 	}else if (objectAt(obj, obj.x+deltaX, obj.y+deltaY)==="grass"){
 		 obj.x = obj.x + deltaX;
 		 obj.y = obj.y + deltaY;
@@ -69,16 +72,63 @@ function objectAt (originalPosition, x, y){
 	}
 }
 
-function thingCheck(obj1){
-	var delta = [];
-	delta[0] = obj1.x - this.x;
-	delta[1] = obj1.y - this.y;
-	console.log(delta[0]/Math.abs(delta[0]));
-	console.log(delta[1]/Math.abs(delta[1]));
-	if (Math.abs(delta[0]) <= 10 && Math.abs(delta[1]) <= 10){
-		moveObj(obj1, delta[0]/Math.abs(delta[0]), delta[1]/Math.abs(delta[0]));
+function dogCheck(obj1){
+	if (obj1.status !== "penned"){
+		var xDelta = obj1.x - this.x;
+		var yDelta = obj1.y - this.y;
+		if (Math.abs(xDelta) <= 3 && Math.abs(yDelta) <= 3){
+			moveObj(obj1, isPositive(xDelta), isPositive(yDelta));
+		}
 	}
 };
+
+function sheepCheck(obj){
+	var xTotal = 0;
+	var yTotal = 0;
+	var sheepTotal = gameObjects.sheep.length;
+	for (sheep in gameObjects.sheep){
+		if (gameObjects.sheep[sheep].status === "penned"){
+			sheepTotal --;
+		}else{
+			xTotal += gameObjects.sheep[sheep].x;
+			yTotal += gameObjects.sheep[sheep].y;
+		}
+	}
+	var xAverage = xTotal/sheepTotal;
+	var yAverage = yTotal/sheepTotal;
+	var xDelta = isPositive(xAverage - obj.x);
+	var yDelta = isPositive(yAverage - obj.y);
+	if (obj.status !== "penned"){
+		moveObj(obj, xDelta, yDelta);
+	}
+}
+
+function age (obj){
+	obj.age +=1;
+}
+
+function isPositive(number){
+	if (number > 0){
+		return 1;
+	}else if (number < 0){
+		return -1;
+	}else{
+		return 0;
+	}
+}
+
+function freeWill(obj){
+	var randomizer = [0, 0, 0, 0, 0, 1, 1, 2];
+	if (randomizer[getRandom(0, 7)] === 1){
+		pack++;
+		sheepCheck(obj);
+	}else if (randomizer[getRandom(0, 13)] === 2){
+		randoms++;
+		moveRandom(obj);
+	}else{
+		doNothing++;
+	}
+}
 
 function moveRandom(obj){
 	if (obj.status !== "penned"){
@@ -93,8 +143,9 @@ function getRandom(min, max) {
 function init(){
 	for (var i=0; i<6; i++){
 		gameObjects.sheep[i] = {};
-		gameObjects.sheep[i].x = getRandom(10, 30);
-		gameObjects.sheep[i].y = getRandom(10, 30);
+		gameObjects.sheep[i].x = getRandom(2, 17);
+		gameObjects.sheep[i].y = getRandom(2, 17);
+		gameObjects.sheep[i].age = 0;
 	}
 	render();
 }
