@@ -121,7 +121,6 @@ function gestation(number){
 	var babies = 0;
 	for (var i=0; i<number; i++){
 		var randomizer = getRandom(0,2);
-		console.log(randomizer);
 		if (randomizer === 1){
 			babies += 1;
 		}
@@ -216,6 +215,22 @@ function makeNewSheep(i){
 	gameObjects.sheep[i].y = getRandom(2, 17);
 	gameObjects.sheep[i].age = 0;
 	gameObjects.sheep[i].status = "active";
+}
+
+function areSheepAlive(){
+	var sheeps = gameObjects.sheep;
+	var livingSheep = 0;
+	for (var i=0; i<sheeps.length; i++){
+		if (sheeps[i].status !== "penned" && sheeps[i].status !== "dead"){
+			livingSheep++;
+		}
+	}
+	console.log(livingSheep);
+	if (livingSheep > 0){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 function init(){

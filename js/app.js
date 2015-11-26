@@ -52,11 +52,17 @@ document.addEventListener('keydown', function(e){
     moveObj(gameObjects.dog, newX, newY);
   }
   render();
-  gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
+  if (areSheepAlive()){
+    gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
   // gameObjects.sheep.forEach(freeWill);
-  gameObjects.sheep.forEach(age);
-  makeBabies();
-  render();
+    gameObjects.sheep.forEach(age);
+    makeBabies();
+    render();
+  }else{
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 600, 600);
+    document.getElementById('game-over').innerText = "You Lose";
+  }
 
 });
 
