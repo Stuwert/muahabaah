@@ -32,6 +32,11 @@ function createBoard (){
 			}
 		}
 	}
+	return board;
+}
+
+function populateBoard(){
+	var board = [];
 	for (elements in gameObjects){
 		var xCord = gameObjects[elements].x;
 		var yCord = gameObjects[elements].y;
@@ -84,6 +89,18 @@ function getRandom(min, max) {
   return +(Math.random() * (max - min)+ min).toFixed(0);
 }
 
+function runGame(){
+	if (areSheepAlive()){
+    gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
+    gameObjects.sheep.forEach(age);
+    makeBabies();
+    render();
+  }else{
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 600, 600);
+    document.getElementById('game-over').innerText = "Game Over";
+  }
+}
 
 function init(){
 	for (var i=0; i<6; i++){

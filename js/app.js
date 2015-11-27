@@ -20,8 +20,7 @@ var render = function(){
         ctx.fillStyle = "green";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
       }else if (typeof board[x][y]=== "number"){
-        ctx.fillStyle = "rgba(255, 255, 255, " + (1 - (board[x][y]*0.01)) + ")";
-        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
+
       }else if (board [x][y] === "dog"){
         ctx.fillStyle = "black";
         ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
@@ -33,6 +32,15 @@ var render = function(){
   }
   document.getElementById('score').innerText = "Your Score is: " + score;
   document.getElementById('sheep-death').innerText = countSheepDeaths() + " sheep have died.";
+}
+
+var renderitem = function(renderItem, x, y){
+  if (typeof renderItem === "number"){
+    ctx.fillStyle = "rgba(255, 255, 255, " + (1 - (board[x][y]*0.01)) + ")";
+    ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
+  }else{
+    
+  }
 }
 
 
@@ -51,16 +59,7 @@ document.addEventListener('keydown', function(e){
   if (newX + newY !== 0){
     moveObj(gameObjects.dog, newX, newY);
   }
-  if (areSheepAlive()){
-    gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
-    gameObjects.sheep.forEach(age);
-    makeBabies();
-    render();
-  }else{
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 600, 600);
-    document.getElementById('game-over').innerText = "Game Over";
-  }
+  runGame();
 
 });
 
