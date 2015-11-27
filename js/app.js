@@ -51,7 +51,6 @@ document.addEventListener('keydown', function(e){
   if (newX + newY !== 0){
     moveObj(gameObjects.dog, newX, newY);
   }
-  render();
   if (areSheepAlive()){
     gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
     gameObjects.sheep.forEach(age);
