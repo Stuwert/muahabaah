@@ -13,12 +13,30 @@ var gameObjects = {
 		x: 10,
 		y: 10
 	},
+	"sea":[]
 }
 
 var score = 0;
 
 //create board
 
+
+function createSea(){
+	for (var i=0; i<ratio*4-5; i++){
+		var seaObjects = gameObjects.sea;
+		if (i <= ratio - 1){
+			seaObjects[i] = {};
+			seaObjects[i].x = 0;
+			seaObjects[i].y = i;
+		}else if (i <= ratio*3 - 5){
+			
+		}
+		board[0][i] = "sea";
+		board[ratio-1][i] = "sea";
+		board[i][0] = "sea";
+		board[i][ratio-1] = "sea";
+	}
+}
 
 function createBoard (){
 	var board = [];
