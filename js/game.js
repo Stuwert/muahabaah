@@ -22,14 +22,15 @@ var score = 0;
 
 
 function createSea(){
-	for (var i=0; i<ratio*4-5; i++){
+	for (var i=0; i<ratio-4; i++){
 		var seaObjects = gameObjects.sea;
-		if (i <= ratio - 1){
-			seaObjects[i] = {};
-			seaObjects[i].x = 0;
-			seaObjects[i].y = i;
+		seaObjects[i] = {};
+		seaObjects[i].x = 0;
+		seaObjects[i].y = i;
+		}
+
 		}else if (i <= ratio*3 - 5){
-			
+
 		}
 		board[0][i] = "sea";
 		board[ratio-1][i] = "sea";
