@@ -2,128 +2,105 @@
 var randoms = 0;
 var pack = 0;
 var doNothing = 0;
+var gameBoard = initializeBoard();
 
 var gameObjects = {
-	"dog": {
-		x: 12,
-		y: 12
-	},
+	"dog": [
+		{ x: 12, y: 12, type: "dog", img: "black" }
+	],
 	"sheep":[],
-	"pen":{
-		x: 10,
-		y: 10
-	},
-	"sea":[]
+	"pen":[
+		{ x: 10, y: 10, type: "pen", img: "brown"}
+	]
 }
 
 var score = 0;
 
 //create board
-
-
-function createSea(){
-	for (var i=0; i<ratio-4; i++){
-		var seaObjects = gameObjects.sea;
-		seaObjects[i] = {};
-		seaObjects[i].x = 0;
-		seaObjects[i].y = i;
-		}
-
-		}else if (i <= ratio*3 - 5){
-
-		}
-		board[0][i] = "sea";
-		board[ratio-1][i] = "sea";
-		board[i][0] = "sea";
-		board[i][ratio-1] = "sea";
-	}
-}
-
-function createBoard (){
+function initializeBoard (){
 	var board = [];
 	for (var x=0; x<ratio; x++){
 		board[x] = [];
 		for (var y=0; y<ratio; y++){
 			if (x === 0 || x === ratio-1 || y === 0 || y === ratio-1){
-				board[x][y] = "sea";
+				board[x][y] = {type: "sea", img: "blue"};
 			}else{
-				board[x][y] = "grass";
+				board[x][y] = {type: "grass", img: "green"};
 			}
 		}
 	}
 	return board;
 }
 
+// populates board based on gameObjects
 function populateBoard(){
-	var board = [];
+	var board = initializeBoard();
 	for (elements in gameObjects){
-		var xCord = gameObjects[elements].x;
-		var yCord = gameObjects[elements].y;
-		if (elements !== "sheep"){
-			board[xCord][yCord] = elements;
-		}else{
-				for (var i=0; i<gameObjects[elements].length; i++){
-					if(gameObjects[elements][i].status === "active"){
-						xCord = gameObjects[elements][i].x;
-						yCord = gameObjects[elements][i].y;
-						board[xCord][yCord] = gameObjects[elements][i].age;
-					}
-				}
+		var gamePiece = gameObjects[elements];
+		for (var i=0; i<gamePiece.length; i++){
+			xCord = gamePiece[i].x;
+			yCord = gamePiece[i].y;
+			board[xCord][yCord] = {};
+			board[xCord][yCord].type = gamePiece[i].type;
+			board[xCord][yCord].img = gamePiece[i].img;
 		}
 	}
 	return board;
 }
-
-function moveObj(obj, deltaX, deltaY){
-	if (typeof objectAt(obj.x, obj.y) === "number" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
-		obj.status = "penned";
-		obj.x = null;
-		obj.y = null;
-		score += 1;
-	}else if (objectAt(obj.x+deltaX, obj.y+deltaY)==="grass"){
-		 obj.x = obj.x + deltaX;
-		 obj.y = obj.y + deltaY;
-	 }
-};
-
-function objectAt (x, y){
-	if (x < 0 || y < 0){
-		return null;
-	}else{
-		return createBoard()[x][y];
-	}
-}
-
-function isPositive(number){
-	if (number > 0){
-		return 1;
-	}else if (number < 0){
-		return -1;
-	}else{
-		return 0;
-	}
-}
-
-function getRandom(min, max) {
-  return +(Math.random() * (max - min)+ min).toFixed(0);
-}
-
-function runGame(){
-	if (areSheepAlive()){
-    gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
-    gameObjects.sheep.forEach(age);
-    makeBabies();
-    render();
-  }else{
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 600, 600);
-    document.getElementById('game-over').innerText = "Game Over";
-  }
-}
+//
+// //takes an object, and the delta of where the object wants to move. Determines if that movement is legitimate.
+// function moveObj(obj, newX, newY){
+// 	if
+// 	if (typeof objectAt(obj.x, obj.y) === "number" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
+// 		obj.status = "penned";
+// 		obj.x = null;
+// 		obj.y = null;
+// 		score += 1;
+// 	}else if (objectAt(obj.x+deltaX, obj.y+deltaY)==="grass"){
+// 		 obj.x = obj.x + deltaX;
+// 		 obj.y = obj.y + deltaY;
+// 	 }
+// };
+//
+// //returns the object at X and Y coordinates.
+// function objectAt (x, y){
+// 	var object = gameboard[x][y];
+// 	return object;
+// }
+//
+// function isPositive(number){
+// 	if (number > 0){
+// 		return 1;
+// 	}else if (number < 0){
+// 		return -1;
+// 	}else{
+// 		return 0;
+// 	}
+// }
+//
+// function getRandom(min, max) {
+//   return +(Math.random() * (max - min)+ min).toFixed(0);
+// }
+//
+// function runGame(){
+// 	if (areSheepAlive()){
+//     gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
+//     gameObjects.sheep.forEach(age);
+//     makeBabies();
+//     render();
+//   }else{
+//     ctx.fillStyle = "black";
+//     ctx.fillRect(0, 0, 600, 600);
+//     document.getElementById('game-over').innerText = "Game Over";
+//   }
+// }
 
 function init(){
-	for (var i=0; i<6; i++){
-		makeNewSheep(i);
-	}
+	// for (var i=0; i<6; i++){
+	// 	makeNewSheep(i);
+	// }
 	render();
 }
+
+
+init();

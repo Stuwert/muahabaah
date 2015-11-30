@@ -8,41 +8,20 @@ document.body.appendChild(canvas);
 var gameUnit = 24;
 var ratio = size/gameUnit;
 
+function renderItems(renderImage, x, y){
+  ctx.fillStyle = renderImage;
+  ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
+}
 
-var render = function(){
-  var board = createBoard();
-  for (var x=0; x<board.length; x++){
-    for (var y=0; y<board[x].length; y++){
-      if (board[x][y] === "sea"){
-        ctx.fillStyle = "blue";
-        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
-      }else if (board[x][y] === "grass"){
-        ctx.fillStyle = "green";
-        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit)
-      }else if (typeof board[x][y]=== "number"){
-
-      }else if (board [x][y] === "dog"){
-        ctx.fillStyle = "black";
-        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
-      }else if (board[x][y]=== "pen"){
-        ctx.fillStyle = "brown";
-        ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
-      }
+function render(){
+  for (var x=0; x<gameBoard.length; x++){
+    for (var y=0; y<gameBoard[x].length; y++){
+      renderItems(gameBoard[x][y].img, x, y);
     }
   }
   document.getElementById('score').innerText = "Your Score is: " + score;
-  document.getElementById('sheep-death').innerText = countSheepDeaths() + " sheep have died.";
+  // document.getElementById('sheep-death').innerText = countSheepDeaths() + " sheep have died.";
 }
-
-var renderitem = function(renderItem, x, y){
-  if (typeof renderItem === "number"){
-    ctx.fillStyle = "rgba(255, 255, 255, " + (1 - (board[x][y]*0.01)) + ")";
-    ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
-  }else{
-    
-  }
-}
-
 
 document.addEventListener('keydown', function(e){
   var newX = 0;
@@ -56,11 +35,9 @@ document.addEventListener('keydown', function(e){
   }else if (e.keyCode === 39){
     newX +=2;
   }
-  if (newX + newY !== 0){
-    moveObj(gameObjects.dog, newX, newY);
-  }
+  // if (newX + newY !== 0){
+  //   moveObj(gameObjects.dog, newX, newY);
+  // }
   runGame();
 
 });
-
-init();
