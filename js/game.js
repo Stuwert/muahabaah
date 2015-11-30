@@ -48,25 +48,21 @@ function populateBoard(){
 	return board;
 }
 //
-// //takes an object, and the delta of where the object wants to move. Determines if that movement is legitimate.
-// function moveObj(obj, newX, newY){
-// 	if
-// 	if (typeof objectAt(obj.x, obj.y) === "number" && objectAt(obj.x+deltaX, obj.y+deltaY) === "pen"){
-// 		obj.status = "penned";
-// 		obj.x = null;
-// 		obj.y = null;
-// 		score += 1;
-// 	}else if (objectAt(obj.x+deltaX, obj.y+deltaY)==="grass"){
-// 		 obj.x = obj.x + deltaX;
-// 		 obj.y = obj.y + deltaY;
-// 	 }
-// };
-//
-// //returns the object at X and Y coordinates.
-// function objectAt (x, y){
-// 	var object = gameboard[x][y];
-// 	return object;
-// }
+//takes an object, and the delta of where the object wants to move. Determines if that movement is legitimate.
+function moveObj(obj, newX, newY){
+	if (objectAt(newX, newY) === "grass"){
+		obj.x = newX;
+		obj.y = newY;
+	}
+	console.log(obj.x);
+	console.log(obj.y);
+};
+
+//returns the object at X and Y coordinates.
+function objectAt (x, y){
+	var object = gameBoard[x][y];
+	return object.type;
+}
 //
 // function isPositive(number){
 // 	if (number > 0){
@@ -78,9 +74,9 @@ function populateBoard(){
 // 	}
 // }
 //
-// function getRandom(min, max) {
-//   return +(Math.random() * (max - min)+ min).toFixed(0);
-// }
+function getRandom(min, max) {
+  return +(Math.random() * (max - min)+ min).toFixed(0);
+}
 //
 // function runGame(){
 // 	if (areSheepAlive()){
@@ -96,11 +92,15 @@ function populateBoard(){
 // }
 
 function init(){
-	// for (var i=0; i<6; i++){
-	// 	makeNewSheep(i);
-	// }
-	render();
+	for (var i=0; i<6; i++){
+		makeNewSheep(i);
+	}
 }
 
+function main(){
+	render();
+	requestAnimationFrame(main);
+}
 
 init();
+main();

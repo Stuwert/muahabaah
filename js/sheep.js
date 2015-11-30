@@ -1,3 +1,14 @@
+function makeNewSheep(i){
+	gameObjects.sheep[i] = {
+		x: getRandom(2, 17),
+		y: getRandom(2, 17),
+		age: 0,
+		status: "active",
+		type: "sheep",
+		img: "white"
+	};
+	// gameObjects.sheep[i].img = "rgba(255, 255, 255, " + (1 - gameObjects.sheep[i]*.01) + ")";
+}
 //
 // function makeBabies (){
 // 	var currentSheep = gameObjects.sheep;
@@ -32,28 +43,12 @@
 // }
 //
 //
-// function dogCheck(obj1){
-// 	if (obj1.status === "active"){
-// 		var pen = gameObjects.pen;
-// 		var dogDeltaX = this.x - obj1.x;
-// 		var dogDeltaY = this.y - obj1.y;
-// 		var penDeltaX = pen.x - obj1.x;
-// 		var penDeltaY = pen.y - obj1.y;
-// 		if (Math.abs(penDeltaX) <= 1 && Math.abs(penDeltaY) <= 1){
-// 			moveObj(obj1, penDeltaX, penDeltaY);
-// 		}else {
-// 			if (dogDeltaX/penDeltaX < 0 && dogDeltaY/penDeltaY < 0){
-// 				moveObj(obj1, isPositive(penDeltaX), isPositive(penDeltaX));
-// 			}else if(dogDeltaX/penDeltaX < 0){
-// 				moveObj(obj1, isPositive(penDeltaX), 0);
-// 			}else if(dogDeltaY/penDeltaY < 0){
-// 				moveObj(obj1, 0, isPositive(penDeltaY));
-// 			}else{
-// 				freeWill(obj1);
-// 			}
-// 		}
-// 	}
-// };
+function dogCheck(obj1){
+	if (obj1.status === "active"){
+		var dogDeltaX = this.x - obj1.x;
+		var dogDeltaY = this.y - obj1.y;
+		
+};
 //
 // function sheepCheck(obj){
 // 	var xTotal = 0;
@@ -108,15 +103,6 @@
 // 	return total;
 // }
 //
-// function makeNewSheep(i){
-// 	gameObjects.sheep[i] = {};
-// 	gameObjects.sheep[i].x = getRandom(2, 17);
-// 	gameObjects.sheep[i].y = getRandom(2, 17);
-// 	gameObjects.sheep[i].age = 0;
-// 	gameObjects.sheep[i].status = "active";
-// 	gameObjects.sheep[i].type = "sheep";
-// 	gameObjects.sheep[i].img = "rgba(255, 255, 255, " + (1 - gameObjects.sheep[i]*.01) + ")";
-// }
 //
 // function areSheepAlive(){
 // 	var sheeps = gameObjects.sheep;

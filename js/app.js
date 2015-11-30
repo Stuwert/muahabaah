@@ -8,12 +8,17 @@ document.body.appendChild(canvas);
 var gameUnit = 24;
 var ratio = size/gameUnit;
 
+
+//Is passed an object from board. Updates canvas.
 function renderItems(renderImage, x, y){
   ctx.fillStyle = renderImage;
   ctx.fillRect(x*gameUnit, y*gameUnit, gameUnit, gameUnit);
 }
 
+
+//Renders the image in html based on the objects in the gameboard.
 function render(){
+  gameBoard = populateBoard();
   for (var x=0; x<gameBoard.length; x++){
     for (var y=0; y<gameBoard[x].length; y++){
       renderItems(gameBoard[x][y].img, x, y);
@@ -27,17 +32,17 @@ document.addEventListener('keydown', function(e){
   var newX = 0;
   var newY = 0;
   if (e.keyCode === 38){
-    newY -= 2;
+    newY -= 1;
   }else if (e.keyCode === 40){
-    newY +=2;
+    newY +=1;
   }else if (e.keyCode === 37){
-    newX -= 2;
+    newX -= 1;
   }else if (e.keyCode === 39){
-    newX +=2;
+    newX +=1;
   }
-  // if (newX + newY !== 0){
-  //   moveObj(gameObjects.dog, newX, newY);
-  // }
-  runGame();
-
+  if (newX + newY !== 0){
+    moveObj(gameObjects.dog[0], gameObjects.dog[0].x+newX, gameObjects.dog[0].y+newY);
+    moveObj(gameObjects.dog[0], gameObjects.dog[0].x+newX, gameObjects.dog[0].y+newY);
+  }
+  render();
 });
