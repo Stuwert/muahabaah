@@ -43,12 +43,69 @@ function makeNewSheep(i){
 // }
 //
 //
-function dogCheck(obj1){
-	if (obj1.status === "active"){
-		var dogDeltaX = this.x - obj1.x;
-		var dogDeltaY = this.y - obj1.y;
-		
+function moveSheep(sheep){
+	if (isActive(sheep)){
+		if (dogIsNearby(sheep)){
+			moveTowardsPen(sheep);
+		}else{
+			moveTowardsWall(sheep);
+		}
+	}
+	function dogIsNearby(thing){
+		var dog = gameObjects["dog"][0];
+		if (Math.abs(thing.x - dog.x) <= 2 && Math.abs(thing.y - dog.y) <= 2){
+			return true;
+		}else;
+			return false;
+		}
 };
+
+
+function moveTowardsPen(thing){
+	var pen = gameObjects["pen"][0];
+	var xDelta = (pen.x - thing.x);
+	var yDelta = (pen.y - thing.y);
+	xDelta = xDelta != 0 ? xDelta/Math.abs(xDelta) : xDelta;
+	yDelta = yDelta != 0 ? yDelta/Math.abs(yDelta) : yDelta;
+	moveObj(thing, thing.x + xDelta, thing.y + yDelta);
+}
+
+function moveTowardsWall(thing){
+	var xHolder = thing.x;
+	var yHolder = thing.y;
+	if (thing.x > gameUnit/2){
+		xHolder++;
+	}else{
+		xHolder--;
+	}
+	if (thing.y > gameUnit/2){
+		yHolder++;
+	}else{
+		yHolder--;
+	}
+	moveObj(thing, xHolder, yHolder);
+}
+
+function isNextToPen(sheep){
+	var pen = gameObjects.pen[0];
+	var absX = Math.abs(pen.x - sheep.x);
+	var absY = Math.abs(pen.y - sheep.y);
+	return (absX <= 1 && absY <= 1);
+}
+
+function moveIntoPen(sheep){
+	if (isNextToPen(sheep)){
+		sheep.x = null;
+		sheep.y = null;
+		sheep.status = "penned";
+		scoreTotal++;
+	}
+}
+
+function isActive(obj){
+	return obj.status === "active";
+}
+
 //
 // function sheepCheck(obj){
 // 	var xTotal = 0;

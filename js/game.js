@@ -3,14 +3,16 @@ var randoms = 0;
 var pack = 0;
 var doNothing = 0;
 var gameBoard = initializeBoard();
+var sheepTotal = 6;
+var scoreTotal = 0;
 
 var gameObjects = {
 	"dog": [
-		{ x: 12, y: 12, type: "dog", img: "black" }
+		{ x: 12, y: 12, type: "dog", img: "black", status: "active" }
 	],
 	"sheep":[],
 	"pen":[
-		{ x: 10, y: 10, type: "pen", img: "brown"}
+		{ x: 10, y: 10, type: "pen", img: "brown", status: "active"}
 	]
 }
 
@@ -34,18 +36,16 @@ function initializeBoard (){
 
 // populates board based on gameObjects
 function populateBoard(){
-	var board = initializeBoard();
+	gameBoard = initializeBoard();
 	for (elements in gameObjects){
 		var gamePiece = gameObjects[elements];
 		for (var i=0; i<gamePiece.length; i++){
-			xCord = gamePiece[i].x;
-			yCord = gamePiece[i].y;
-			board[xCord][yCord] = {};
-			board[xCord][yCord].type = gamePiece[i].type;
-			board[xCord][yCord].img = gamePiece[i].img;
+				var gameUnit = gamePiece[i];
+				if (gameUnit.status === "active"){
+					gameBoard[gameUnit.x][gameUnit.y] = gamePiece[i];
+				}
+			}
 		}
-	}
-	return board;
 }
 //
 //takes an object, and the delta of where the object wants to move. Determines if that movement is legitimate.
@@ -54,9 +54,7 @@ function moveObj(obj, newX, newY){
 		obj.x = newX;
 		obj.y = newY;
 	}
-	console.log(obj.x);
-	console.log(obj.y);
-};
+	};
 
 //returns the object at X and Y coordinates.
 function objectAt (x, y){
@@ -92,15 +90,22 @@ function getRandom(min, max) {
 // }
 
 function init(){
-	for (var i=0; i<6; i++){
+	for (var i=0; i<sheepTotal; i++){
 		makeNewSheep(i);
 	}
 }
 
 function main(){
+	var now = Date.now();
+  var delta = now - then;
+
+	console.log(gameObjects.dog);
+	gameObjects["sheep"].forEach(moveSheep);
+	gameObjects["sheep"].forEach(moveIntoPen);
+
 	render();
-	requestAnimationFrame(main);
 }
 
+var then = Date.now();
 init();
 main();

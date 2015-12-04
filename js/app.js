@@ -18,17 +18,18 @@ function renderItems(renderImage, x, y){
 
 //Renders the image in html based on the objects in the gameboard.
 function render(){
-  gameBoard = populateBoard();
+  populateBoard();
   for (var x=0; x<gameBoard.length; x++){
     for (var y=0; y<gameBoard[x].length; y++){
       renderItems(gameBoard[x][y].img, x, y);
     }
   }
-  document.getElementById('score').innerText = "Your Score is: " + score;
+  document.getElementById('score').innerText = "Your Score is: " + scoreTotal;
   // document.getElementById('sheep-death').innerText = countSheepDeaths() + " sheep have died.";
 }
 
 document.addEventListener('keydown', function(e){
+  e.preventDefault();
   var newX = 0;
   var newY = 0;
   if (e.keyCode === 38){
@@ -42,7 +43,6 @@ document.addEventListener('keydown', function(e){
   }
   if (newX + newY !== 0){
     moveObj(gameObjects.dog[0], gameObjects.dog[0].x+newX, gameObjects.dog[0].y+newY);
-    moveObj(gameObjects.dog[0], gameObjects.dog[0].x+newX, gameObjects.dog[0].y+newY);
   }
-  render();
+  main();
 });
