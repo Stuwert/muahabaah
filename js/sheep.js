@@ -1,7 +1,7 @@
 function makeNewSheep(i){
 	gameObjects.sheep[i] = {
-		x: getRandom(2, 17),
-		y: getRandom(2, 17),
+		x: getRandom(2, ratio - 10),
+		y: getRandom(2, ratio - 10),
 		age: 0,
 		status: "active",
 		type: "sheep",
@@ -53,7 +53,7 @@ function moveSheep(sheep){
 	}
 };
 
-function sheepIsNearby(thing){
+function sheepIsNearby(thing, distance){
 	for (var i=thing.x-1; i<=thing.x+1; i++){
 		for (var j=thing.y-1; i<thing.y+1; i++){
 			if (gameBoard[i][j].type === 'sheep'){
@@ -66,7 +66,7 @@ function sheepIsNearby(thing){
 
 	function dogIsNearby(thing){
 		var dog = gameObjects["dog"][0];
-		if (Math.abs(thing.x - dog.x) <= 2 && Math.abs(thing.y - dog.y) <= 2){
+		if (Math.abs(thing.x - dog.x) <= 7 && Math.abs(thing.y - dog.y) <= 7){
 			return true;
 		}else;
 			return false;
@@ -118,13 +118,20 @@ function isActive(obj){
 }
 
 function moveDecision(sheep){
-	if (!sheepIsNearby(sheep) && getRandom(1, 3) > 2){
+	if (!sheepIsNearby(sheep, 4) && getRandom(1, 20) > 17){
 		moveTowardsWall(sheep);
 	}
 }
 
-function wanderOff(sheep){
-	
+function killSheep(sheep){
+	sheep.status = "dead";
+	sheep.x = null;
+	sheep.y = null;
+	sheepDeath++;
+}
+
+function areActive(object){
+	return object.status === "active";
 }
 
 //

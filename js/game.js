@@ -5,7 +5,7 @@ var doNothing = 0;
 var gameBoard = initializeBoard();
 var sheepTotal = 6;
 var scoreTotal = 0;
-var sheepDeath;
+var sheepDeath = 0;
 
 var gameObjects = {
 	"dog": [
@@ -51,9 +51,11 @@ function populateBoard(){
 //
 //takes an object, and the delta of where the object wants to move. Determines if that movement is legitimate.
 function moveObj(obj, newX, newY){
-	if (objectAt(newX, newY) === "grass"){
+	if (gameBoard[newX][newY].type === "grass"){
 		obj.x = newX;
 		obj.y = newY;
+	}else if(obj.type === "sheep" && gameBoard[newX][newY].type === "sea"){
+			killSheep(obj);
 	}else{
 		obj.x = obj.x;
 		obj.y = obj.y;
@@ -61,10 +63,10 @@ function moveObj(obj, newX, newY){
 };
 
 //returns the object at X and Y coordinates.
-function objectAt (x, y){
-	var object = gameBoard[x][y];
-	return object.type;
-}
+// function objectAt (x, y){
+// 	var object = gameBoard[x][y];
+// 	return object.type;
+// }
 //
 // function isPositive(number){
 // 	if (number > 0){
@@ -100,16 +102,16 @@ function init(){
 }
 
 function main(){
-	var now = Date.now();
-  var delta = now - then;
-
 	gameObjects["sheep"].forEach(moveSheep);
 	gameObjects["sheep"].forEach(moveIntoPen);
-	gameObjects["sheep"].forEach(wanderOff);
-
 	render();
+	if(gameObjects["sheep"].filter(areActive).length === 0 && gameObjects["sheep"].length > 0){
+		alert("Game-Over")
+	};
 }
 
-var then = Date.now();
-init();
-main();
+$('#generate').click(function(){
+	sheepTotal = $('input').val();
+	init();
+	main();
+})
