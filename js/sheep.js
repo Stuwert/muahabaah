@@ -48,9 +48,22 @@ function moveSheep(sheep){
 		if (dogIsNearby(sheep)){
 			moveTowardsPen(sheep);
 		}else{
-			moveTowardsWall(sheep);
+			moveDecision(sheep);
 		}
 	}
+};
+
+function sheepIsNearby(thing){
+	for (var i=thing.x-1; i<=thing.x+1; i++){
+		for (var j=thing.y-1; i<thing.y+1; i++){
+			if (gameBoard[i][j].type === 'sheep'){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 	function dogIsNearby(thing){
 		var dog = gameObjects["dog"][0];
 		if (Math.abs(thing.x - dog.x) <= 2 && Math.abs(thing.y - dog.y) <= 2){
@@ -58,8 +71,6 @@ function moveSheep(sheep){
 		}else;
 			return false;
 		}
-};
-
 
 function moveTowardsPen(thing){
 	var pen = gameObjects["pen"][0];
@@ -104,6 +115,16 @@ function moveIntoPen(sheep){
 
 function isActive(obj){
 	return obj.status === "active";
+}
+
+function moveDecision(sheep){
+	if (!sheepIsNearby(sheep) && getRandom(1, 3) > 2){
+		moveTowardsWall(sheep);
+	}
+}
+
+function wanderOff(sheep){
+	
 }
 
 //

@@ -5,6 +5,7 @@ var doNothing = 0;
 var gameBoard = initializeBoard();
 var sheepTotal = 6;
 var scoreTotal = 0;
+var sheepDeath;
 
 var gameObjects = {
 	"dog": [
@@ -53,8 +54,11 @@ function moveObj(obj, newX, newY){
 	if (objectAt(newX, newY) === "grass"){
 		obj.x = newX;
 		obj.y = newY;
+	}else{
+		obj.x = obj.x;
+		obj.y = obj.y;
 	}
-	};
+};
 
 //returns the object at X and Y coordinates.
 function objectAt (x, y){
@@ -99,9 +103,9 @@ function main(){
 	var now = Date.now();
   var delta = now - then;
 
-	console.log(gameObjects.dog);
 	gameObjects["sheep"].forEach(moveSheep);
 	gameObjects["sheep"].forEach(moveIntoPen);
+	gameObjects["sheep"].forEach(wanderOff);
 
 	render();
 }
