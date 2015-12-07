@@ -14,7 +14,8 @@ var gameObjects = {
 	"sheep":[],
 	"pen":[
 		{ x: 10, y: 10, type: "pen", img: "brown", status: "active"}
-	]
+	],
+	"wolf":[]
 }
 
 var score = 0;
@@ -37,6 +38,7 @@ function initializeBoard (){
 
 // populates board based on gameObjects
 function populateBoard(){
+	initializeWolf();
 	gameBoard = initializeBoard();
 	for (elements in gameObjects){
 		var gamePiece = gameObjects[elements];
