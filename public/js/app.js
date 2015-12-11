@@ -1,11 +1,11 @@
 //Initializes canvas.
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-var size = 500;
+var size = 450;
 canvas.width = size;
 canvas.height = size;
 document.body.appendChild(canvas);
-var gameUnit = 25;
+var gameUnit = 15;
 var ratio = size/gameUnit;
 
 

@@ -116,6 +116,10 @@ function main(){
 				gameStatus = "over";
 			}else{
 				gameStatus = "reset";
+				gameObjects["sheep"].forEach(ageSheep);
+				gameObjects["sheep"].forEach(function(item){
+					console.log(item.age);
+				})
 				gameReset();
 			}
 		}

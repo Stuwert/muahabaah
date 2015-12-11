@@ -69,7 +69,7 @@ function sheepIsNearby(thing, distance){
 
 	function dogIsNearby(thing){
 		var dog = gameObjects["dog"][0];
-		if (Math.abs(thing.x - dog.x) <= 7 && Math.abs(thing.y - dog.y) <= 7){
+		if (Math.abs(thing.x - dog.x) <= 3 && Math.abs(thing.y - dog.y) <= 3){
 			return true;
 		}else;
 			return false;
@@ -121,7 +121,7 @@ function isActive(obj){
 }
 
 function moveDecision(sheep){
-	if (!sheepIsNearby(sheep, 4) && getRandom(1, 20) > 17){
+	if (!sheepIsNearby(sheep, 4) && getRandom(1, 20) > 14){
 		moveTowardsWall(sheep);
 	}
 }
@@ -192,6 +192,16 @@ function areActive(object){
 // }
 //
 //
+
+function ageSheep(sheepsies){
+	if(sheepsies.status != "dead"){
+		sheepsies.age++;
+	}
+	if (sheepsies.age >= 10){
+		killSheep(sheepsies);
+	}
+}
+
 function areSheepAlive(sheepsies){
 	return sheepsies.status === "penned" ? true : false;
 }
