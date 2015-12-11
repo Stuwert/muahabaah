@@ -6,6 +6,8 @@ var gameBoard = initializeBoard();
 var sheepTotal = 6;
 var scoreTotal = 0;
 var sheepDeath = 0;
+var gameStatus = "new";
+// potential statuses "new" "inprogress" "reset" "over"
 
 var gameObjects = {
 	"dog": [
@@ -38,7 +40,7 @@ function initializeBoard (){
 
 // populates board based on gameObjects
 function populateBoard(){
-	initializeWolf();
+	// initializeWolf();
 	gameBoard = initializeBoard();
 	for (elements in gameObjects){
 		var gamePiece = gameObjects[elements];
@@ -56,6 +58,7 @@ function moveObj(obj, newX, newY){
 	if (gameBoard[newX][newY].type === "grass"){
 		obj.x = newX;
 		obj.y = newY;
+		gameBoard[newX][newY] = obj;
 	}else if(obj.type === "sheep" && gameBoard[newX][newY].type === "sea"){
 			killSheep(obj);
 	}else{
@@ -107,9 +110,17 @@ function main(){
 	gameObjects["sheep"].forEach(moveSheep);
 	gameObjects["sheep"].forEach(moveIntoPen);
 	render();
-	if(gameObjects["sheep"].filter(areActive).length === 0 && gameObjects["sheep"].length > 0){
-		alert("Game-Over")
-	};
+	if (gameStatus != "new") {
+		if(gameObjects["sheep"].filter(areActive).length === 0){
+			if(gameObjects["sheep"].filter(areSheepAlive).length === 0){
+				gameStatus = "over";
+			}else{
+				gameStatus = "reset";
+				gameReset();
+			}
+		}
+	}
+	gameStatus = "inprogress";
 }
 
 $('#generate').click(function(){
@@ -117,3 +128,12 @@ $('#generate').click(function(){
 	init();
 	main();
 })
+
+function gameReset(){
+	sheepTotal = gameObjects["sheep"].filter(areSheepAlive).length;
+	gameBoard["sheep"] = {};
+	sheepBreeding(sheepTotal);
+	init();
+	render();
+
+}

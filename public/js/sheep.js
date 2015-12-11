@@ -43,6 +43,9 @@ function makeNewSheep(i){
 // }
 //
 //
+
+
+
 function moveSheep(sheep){
 	if (isActive(sheep)){
 		if (dogIsNearby(sheep)){
@@ -189,17 +192,10 @@ function areActive(object){
 // }
 //
 //
-// function areSheepAlive(){
-// 	var sheeps = gameObjects.sheep;
-// 	var livingSheep = 0;
-// 	for (var i=0; i<sheeps.length; i++){
-// 		if (sheeps[i].status !== "penned" && sheeps[i].status !== "dead"){
-// 			livingSheep++;
-// 		}
-// 	}
-// 	if (livingSheep > 0){
-// 		return true;
-// 	}else{
-// 		return false;
-// 	}
-// }
+function areSheepAlive(sheepsies){
+	return sheepsies.status === "penned" ? true : false;
+}
+
+function sheepBreeding(num){
+	return getRandom(0, num/2);
+}

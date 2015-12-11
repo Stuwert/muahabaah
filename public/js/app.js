@@ -5,7 +5,7 @@ var size = 500;
 canvas.width = size;
 canvas.height = size;
 document.body.appendChild(canvas);
-var gameUnit = 10;
+var gameUnit = 25;
 var ratio = size/gameUnit;
 
 
