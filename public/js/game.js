@@ -1,4 +1,12 @@
 //initialize game objects
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+var size = 450;
+canvas.width = size;
+canvas.height = size;
+document.body.appendChild(canvas);
+var gameUnit = 15;
+var ratio = size/gameUnit;
 var randoms = 0;
 var pack = 0;
 var doNothing = 0;
@@ -7,7 +15,11 @@ var sheepTotal = 6;
 var scoreTotal = 0;
 var sheepDeath = 0;
 var gameStatus = "new";
+var score = 0;
+var activeSheep;
+
 // potential statuses "new" "inprogress" "reset" "over"
+// statuses can be "active", "penned", "inactive"
 
 var gameObjects = {
 	"dog": [
@@ -20,7 +32,7 @@ var gameObjects = {
 	"wolf":[]
 }
 
-var score = 0;
+
 
 //create board
 function initializeBoard (){
@@ -67,49 +79,43 @@ function moveObj(obj, newX, newY){
 	}
 };
 
-//returns the object at X and Y coordinates.
-// function objectAt (x, y){
-// 	var object = gameBoard[x][y];
-// 	return object.type;
-// }
-//
-// function isPositive(number){
-// 	if (number > 0){
-// 		return 1;
-// 	}else if (number < 0){
-// 		return -1;
-// 	}else{
-// 		return 0;
-// 	}
-// }
-//
 function getRandom(min, max) {
   return +(Math.random() * (max - min)+ min).toFixed(0);
 }
-//
-// function runGame(){
-// 	if (areSheepAlive()){
-//     gameObjects.sheep.forEach(dogCheck, gameObjects.dog);
-//     gameObjects.sheep.forEach(age);
-//     makeBabies();
-//     render();
-//   }else{
-//     ctx.fillStyle = "black";
-//     ctx.fillRect(0, 0, 600, 600);
-//     document.getElementById('game-over').innerText = "Game Over";
-//   }
-// }
 
-function init(){
+function initSheep(){
 	for (var i=0; i<sheepTotal; i++){
 		makeNewSheep(i);
 	}
+}
+
+function initDog(){
+	gameObjects["dog"] = {
+		x: 12,
+		y: 12,
+		type: "dog",
+		img: "black",
+		status: "active"
+	}
+}
+
+function initPen(){
 }
 
 function main(){
 	gameObjects["sheep"].forEach(moveSheep);
 	gameObjects["sheep"].forEach(moveIntoPen);
 	render();
+	endCheck();
+}
+
+$('#generate').click(function(){
+	sheepTotal = $('input').val();
+	initSheep();
+	main();
+})
+
+function endCheck(){
 	if (gameStatus != "new") {
 		if(gameObjects["sheep"].filter(areActive).length === 0){
 			if(gameObjects["sheep"].filter(areSheepAlive).length === 0){
@@ -127,17 +133,11 @@ function main(){
 	gameStatus = "inprogress";
 }
 
-$('#generate').click(function(){
-	sheepTotal = $('input').val();
-	init();
-	main();
-})
-
 function gameReset(){
 	sheepTotal = gameObjects["sheep"].filter(areSheepAlive).length;
 	gameBoard["sheep"] = {};
 	sheepBreeding(sheepTotal);
-	init();
+	initSheep();
 	render();
 
 }

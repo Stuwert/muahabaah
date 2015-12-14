@@ -9,41 +9,6 @@ function makeNewSheep(i){
 	};
 	// gameObjects.sheep[i].img = "rgba(255, 255, 255, " + (1 - gameObjects.sheep[i]*.01) + ")";
 }
-//
-// function makeBabies (){
-// 	var currentSheep = gameObjects.sheep;
-// 	var breedingAgeSheepNumber = currentSheep.filter(ageValue).length;
-// 	if (breedingAgeSheepNumber % 2 !== 0){
-// 		breedingAgeSheepNumber--;
-// 	}
-// 	newSheep = gestation(breedingAgeSheepNumber/2);
-// 	var currentSheepNumber = currentSheep.length;
-// 	for (var i = currentSheepNumber; i < currentSheepNumber + newSheep; i++){
-// 		makeNewSheep(i);
-// 	}
-// }
-//
-// function ageValue(e){
-// 	if (e.age > 4 && e.age < 11){
-// 		return true;
-// 	}else{
-// 		return false;
-// 	}
-// }
-//
-// function gestation(number){
-// 	var babies = 0;
-// 	for (var i=0; i<number; i++){
-// 		var randomizer = getRandom(0,3);
-// 		if (randomizer === 1){
-// 			babies += 1;
-// 		}
-// 	}
-// 	return babies;
-// }
-//
-//
-
 
 
 function moveSheep(sheep){
